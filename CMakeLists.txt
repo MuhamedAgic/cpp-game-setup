@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 #! ! ! ! ! ! !
 #set this to ON instead of OFF to ship the game!
@@ -55,7 +55,7 @@ else()
 
 endif()
 
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES} )
+target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES}  "src/gameLayer/block.h" "src/gameLayer/gameMap.h" "src/gameLayer/gameMap.cpp" "src/gameLayer/assetManager.h" "src/gameLayer/helpers.h" "src/gameLayer/helpers.cpp")
 
 
 if(MSVC) # If using the VS compiler...
