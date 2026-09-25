@@ -6,4 +6,5 @@
 struct GameData {
 	GameMap gameMap;
 	Camera2D camera;
+	BlockType current_block_type;
 };

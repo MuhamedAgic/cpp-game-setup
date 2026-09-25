@@ -9,7 +9,7 @@
 #include "assetManager.h"
 #include "gameMap.h"
 #include "helpers.h"
-
+#include "../platform/imguiComponents.h"
 
 
 bool initGame()
@@ -70,6 +70,13 @@ bool updateGame()
 
 	processKeyPress(game.data, deltaTime);
 
+	// Block selector
+	ImGuiIO &io = ImGui::GetIO();
+	if (ImGui::TreeNode("Block selector")) {
+		display_block_selector(io, game.assetManager, game.data.current_block_type);
+		ImGui::TreePop();
+	}
+
 	Vector2 worldPos = GetScreenToWorld2D(GetMousePosition(), game.data.camera);
 	int mouseBlockXPos = static_cast<int>(worldPos.x);
 	int mouseBlockYPos = static_cast<int>(worldPos.y);
@@ -84,7 +91,7 @@ bool updateGame()
 	if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
 		auto block = game.data.gameMap.getBlockSafe(mouseBlockXPos, mouseBlockYPos);
 		if (block) {
-			block->type = BlockType::GOLDBLOCK;
+			block->type = game.data.current_block_type;
 		}
 	}
 

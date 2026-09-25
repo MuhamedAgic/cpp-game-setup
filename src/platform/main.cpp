@@ -57,12 +57,6 @@ int main(void) {
 
 		ImGui::ShowDemoWindow();
 
-		// Block selector
-		if (ImGui::TreeNode("Block selector")) {
-			display_block_selector(io, game.assetManager);
-			ImGui::TreePop();
-		}
-
 
 	#pragma endregion
 

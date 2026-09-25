@@ -5,7 +5,11 @@
 #include <iostream>
 
 // TODO select block make thick border and make block usable
-void display_block_selector(ImGuiIO& io, const AssetManager& assetManager) {
+void display_block_selector(
+    ImGuiIO& io, 
+    const AssetManager& assetManager,
+    BlockType& selectedBlockType
+) {
     const Texture2D& texture = assetManager.m_textures;
 
     ImTextureID texture_id = reinterpret_cast<ImTextureID>(
@@ -43,7 +47,7 @@ void display_block_selector(ImGuiIO& io, const AssetManager& assetManager) {
             static_cast<float>(Block::blockSizePx)
         );
 
-        ImGui::ImageButton(
+        if (ImGui::ImageButton(
             "##block",
             texture_id,
             size,
@@ -51,13 +55,32 @@ void display_block_selector(ImGuiIO& io, const AssetManager& assetManager) {
             uv1,
             ImVec4(0, 0, 0, 0),
             ImVec4(1, 1, 1, 1)
-        );
-
-        if (i % 10 != 9)
-            ImGui::SameLine();
-
+        )) {
+            selectedBlockType = Block::blockTypes.at(i);
+        }
+        
+        // if (i % 10 != 9) {
+        //     ImGui::SameLine();
+        // }
         ImGui::PopID();
+
+        // Draw selection border
+        if (selectedBlockType == Block::blockTypes.at(i))
+        {
+            ImVec2 min = ImGui::GetItemRectMin();
+            ImVec2 max = ImGui::GetItemRectMax();
+
+            ImGui::GetWindowDrawList()->AddRect(
+                ImVec2(min.x - 2.0f, min.y - 2.0f),
+                ImVec2(max.x + 2.0f, max.y + 2.0f),
+                IM_COL32(255, 220, 50, 255),
+                0.0f,
+                0,
+                3.0f
+            );
+        }
     }
+
 }
 
 
