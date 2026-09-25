@@ -6,7 +6,7 @@
 
 #include "../gameLayer/game.h"
 #include "gameMain.h"
-#include "Block.h"
+#include "block.h"
 #include "imguiComponents.h"
 
 
