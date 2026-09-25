@@ -40,6 +40,7 @@ using BlockTypes = std::array<BlockType, magic_enum::enum_count<BlockType>()>;
 
 struct Block {
 	constexpr static BlockTypes blockTypes = magic_enum::enum_values<BlockType>();
+	constexpr static unsigned int blockSizePx = 32;
 	BlockType type;
 };
 

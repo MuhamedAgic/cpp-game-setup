@@ -65,7 +65,7 @@ target_sources(
 	"src/gameLayer/assetManager.h" 
 	"src/gameLayer/helpers.h" 
 	"src/gameLayer/helpers.cpp"
- "src/platform/imguiComponents.h" "src/platform/imguiComponents.cpp")
+ "src/platform/imguiComponents.h" "src/platform/imguiComponents.cpp" "src/gameLayer/gameData.h" "src/gameLayer/game.h" "src/gameLayer/game.cpp")
 
 
 if(MSVC) # If using the VS compiler...
