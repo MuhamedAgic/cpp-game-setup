@@ -4,26 +4,33 @@
 #include "../gameLayer/helpers.h"
 #include <iostream>
 
-// TODO select block make thick border and make block usable
 void display_block_selector(
-    ImGuiIO& io, 
+    ImGuiIO& io,
     const AssetManager& assetManager,
     BlockType& selectedBlockType
 ) {
     const Texture2D& texture = assetManager.m_textures;
 
     ImTextureID texture_id = reinterpret_cast<ImTextureID>(
-            static_cast<uintptr_t>(texture.id)
+        static_cast<uintptr_t>(texture.id)
     );
 
-    const int columns = texture.width / Block::blockSizePx;
+    // Columns in the texture atlas
+    const int atlasColumns = texture.width / Block::blockSizePx;
+
+    // Actual ImGui button width
+    const float padding = ImGui::GetStyle().FramePadding.x;
+    const float buttonWidth = static_cast<float>(Block::blockSizePx) + padding * 2.0f;
+    const float spacing = ImGui::GetStyle().ItemSpacing.x;
+    const float availableWidth = ImGui::GetContentRegionAvail().x;
+    const int uiColumns = std::max(1, static_cast<int>((availableWidth + spacing) / (buttonWidth + spacing)));
 
     for (int i = 0; i < Block::blockTypes.size(); ++i)
     {
         ImGui::PushID(i);
 
-        const int atlasX = i % columns;
-        const int atlasY = i / columns;
+        const int atlasX = i % atlasColumns;
+        const int atlasY = i / atlasColumns;
 
         Rectangle source = getTextureAtlas(
             atlasX,
@@ -55,16 +62,12 @@ void display_block_selector(
             uv1,
             ImVec4(0, 0, 0, 0),
             ImVec4(1, 1, 1, 1)
-        )) {
+        ))
+        {
             selectedBlockType = Block::blockTypes.at(i);
         }
-        
-        // if (i % 10 != 9) {
-        //     ImGui::SameLine();
-        // }
-        ImGui::PopID();
 
-        // Draw selection border
+        // Draw selection border immediately after the button
         if (selectedBlockType == Block::blockTypes.at(i))
         {
             ImVec2 min = ImGui::GetItemRectMin();
@@ -79,8 +82,12 @@ void display_block_selector(
                 3.0f
             );
         }
+
+        ImGui::PopID();
+
+        if (i % uiColumns != uiColumns - 1)
+        {
+            ImGui::SameLine();
+        }
     }
-
 }
-
-

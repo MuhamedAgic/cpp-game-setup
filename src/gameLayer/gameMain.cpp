@@ -72,11 +72,11 @@ bool updateGame()
 
 	// Block selector
 	ImGuiIO &io = ImGui::GetIO();
-	if (ImGui::TreeNode("Block selector")) {
+	if (ImGui::Begin("Block selector")) {
 		display_block_selector(io, game.assetManager, game.data.current_block_type);
-		ImGui::TreePop();
 	}
-
+	ImGui::End();
+	
 	Vector2 worldPos = GetScreenToWorld2D(GetMousePosition(), game.data.camera);
 	int mouseBlockXPos = static_cast<int>(worldPos.x);
 	int mouseBlockYPos = static_cast<int>(worldPos.y);
