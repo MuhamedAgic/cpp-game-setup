@@ -28,6 +28,7 @@ project(mygame)
 add_subdirectory(thirdparty/raylib-5.0)
 add_subdirectory(thirdparty/imgui-docking)
 add_subdirectory(thirdparty/rlImgui)
+add_subdirectory(thirdparty/magic_enum-master)
 
 
 # MY_SOURCES is defined to be a list of all the source files for my game 
@@ -55,7 +56,16 @@ else()
 
 endif()
 
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES}  "src/gameLayer/block.h" "src/gameLayer/gameMap.h" "src/gameLayer/gameMap.cpp" "src/gameLayer/assetManager.h" "src/gameLayer/helpers.h" "src/gameLayer/helpers.cpp")
+target_sources(
+	"${CMAKE_PROJECT_NAME}" 
+	PRIVATE ${MY_SOURCES}  
+	"src/gameLayer/block.h" 
+	"src/gameLayer/gameMap.h" 
+	"src/gameLayer/gameMap.cpp" 
+	"src/gameLayer/assetManager.h" 
+	"src/gameLayer/helpers.h" 
+	"src/gameLayer/helpers.cpp"
+ "src/platform/imguiComponents.h" "src/platform/imguiComponents.cpp")
 
 
 if(MSVC) # If using the VS compiler...
@@ -88,7 +98,7 @@ target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURC
 
 
 # Link raylib library statically, Here wou would add other libraries!
-target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE raylib_static imgui rlimgui )
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE raylib_static imgui rlimgui magic_enum)
 
 
 

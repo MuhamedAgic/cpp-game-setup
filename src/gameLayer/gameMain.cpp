@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <asserts.h>
 #include <cmath>
+#include <magic_enum/magic_enum.hpp>
 
 #include "gameMain.h"
 #include "block.h"
@@ -8,11 +9,14 @@
 #include "gameMap.h"
 #include "helpers.h"
 
+
+
+
 struct GameData
 {
 	GameMap gameMap;
 	Camera2D camera;
-
+	
 };
 
 GameData gameData;
@@ -32,14 +36,14 @@ bool initGame()
 			float s = (std::sin(x) + 1.f) / 2.f;
 
 			if (gameData.gameMap.m_h - (gameData.gameMap.m_h * 0.3 * s) - gameData.gameMap.m_h * 0.5 < y){
-				gameData.gameMap.getBlockUnsafe(x, y).type = BlockType::DIRT;
+				gameData.gameMap.getBlockUnsafe(x, y).type = BlockType::DIRTGRASS;
 			}else {
 				gameData.gameMap.getBlockUnsafe(x, y).type = BlockType::AIR;
 			}
 		}
 	}
 
-	gameData.gameMap.getBlockUnsafe(0, 0).type = BlockType::DIRT;
+	gameData.gameMap.getBlockUnsafe(0, 0).type = BlockType::DIRTGRASS;
 	gameData.gameMap.getBlockUnsafe(1, 1).type = BlockType::GRASS;
 	gameData.gameMap.getBlockUnsafe(2, 2).type = BlockType::GOLDBLOCK;
 	gameData.gameMap.getBlockUnsafe(3, 3).type = BlockType::GLASS;
