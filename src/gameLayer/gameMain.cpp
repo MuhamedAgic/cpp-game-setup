@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <raymath.h>
 #include <asserts.h>
 #include <cmath>
 #include <magic_enum/magic_enum.hpp>
@@ -16,7 +17,7 @@ bool initGame()
 {
 	game.assetManager.loadAll();
 
-	game.data.gameMap.create(30, 10);
+	game.data.gameMap.create(700, 500);
 
 	for (int y = 0; y < game.data.gameMap.m_h; y++) {
 		for (int x = 0; x < game.data.gameMap.m_w; x++) {
@@ -76,7 +77,7 @@ bool updateGame()
 		display_block_selector(io, game.assetManager, game.data.current_block_type);
 	}
 	ImGui::End();
-	
+
 	Vector2 worldPos = GetScreenToWorld2D(GetMousePosition(), game.data.camera);
 	int mouseBlockXPos = static_cast<int>(worldPos.x);
 	int mouseBlockYPos = static_cast<int>(worldPos.y);
@@ -95,8 +96,21 @@ bool updateGame()
 		}
 	}
 
-	for (int y = 0; y < game.data.gameMap.m_h; y++) {
-		for (int x = 0; x < game.data.gameMap.m_w; x++) {
+	Vector2 top_left_view = GetScreenToWorld2D({0, 0}, game.data.camera);
+	Vector2 botton_right_view = GetScreenToWorld2D({static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())}, game.data.camera);
+	
+	int start_view_x = top_left_view.x;
+	int end_view_x = botton_right_view.x;
+	int start_view_y = top_left_view.y;
+	int end_view_y = botton_right_view.y;
+
+	start_view_x = Clamp(start_view_x, 0, game.data.gameMap.m_w - 1);
+	end_view_x = Clamp(end_view_x, 0, game.data.gameMap.m_w - 1);
+	start_view_y = Clamp(start_view_y, 0, game.data.gameMap.m_h - 1);
+	end_view_y = Clamp(end_view_y, 0, game.data.gameMap.m_h - 1);
+
+	for (int y = start_view_y; y < end_view_y; y++) {
+		for (int x = start_view_x; x < end_view_x; x++) {
 			auto& block = game.data.gameMap.getBlockUnsafe(x, y);
 
 			if (block.type != BlockType::AIR) {

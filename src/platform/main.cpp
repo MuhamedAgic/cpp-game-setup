@@ -19,7 +19,7 @@ int main(void) {
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(1500, 1000, "window name");
 	SetExitKey(KEY_NULL); // Disable Esc from closing window
-	SetTargetFPS(240);
+	// SetTargetFPS(240);
 
 #pragma region imgui
 	rlImGuiSetup(true);
@@ -63,6 +63,7 @@ int main(void) {
 		if (!updateGame()) {
 			CloseWindow();
 		}
+		DrawFPS(10, 10);
 
 	#pragma region imgui
 		rlImGuiEnd();
